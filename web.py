@@ -10,10 +10,11 @@ class WebRequestHandler(BaseHTTPRequestHandler):
         return dict(parse_qsl(self.url().query))
 
     def do_GET(self):
-        self.send_response(200)
-        self.send_header("Content-Type", "text/html")
+        status, body = self.get_response()
+        self.send_response(status)
+        self.send_header("Content-Type", "text/html; charset=utf-8")
         self.end_headers()
-        self.wfile.write(self.get_response().encode("utf-8"))
+        self.wfile.write(body.encode("utf-8"))
 
     def get_response(self):
         path = self.url().path
@@ -25,15 +26,13 @@ class WebRequestHandler(BaseHTTPRequestHandler):
             autor = query.get("autor")
 
             if autor is not None:
-                return f"<h1>Proyecto: {proyecto} Autor: {autor}</h1>"
-        
-        return f"""
-    <h1> Hola Web </h1>
-    <p> URL Parse Result : {self.url()}         </p>
-    <p> Path Original: {self.path}         </p>
-    <p> Headers: {self.headers}      </p>
-    <p> Query: {self.query_data()}   </p>
-"""
+                return 200, f"<h1>Proyecto: {proyecto} Autor: {autor}</h1>"
+            
+        if path == "/":
+            with open("home.html", "r", encoding="utf-8") as f:
+                return 200, f.read()
+            
+        return 404, "<h1>404 Not Found</h1>"
 
 
 if __name__ == "__main__":
