@@ -104,3 +104,4 @@ Recuerda que en un diccionario puedes almacenar también métodos, por lo que la
 puedes implmentar es muy variada.
 
 Si llegaste hasta aquí haz un commit con el mensaje "Sitio Web Dinámico".
+Demo de push desde AWS Fri Mar 13 18:50:04 UTC 2026
